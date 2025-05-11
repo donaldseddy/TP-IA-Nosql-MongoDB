@@ -47,6 +47,16 @@ class MongoManager:
             raise Exception("Database not initialized. Please provide a database name.")
         self.__collection = self.__db[coll_name]
 
+    def create_collection(self, coll_name: str, schema: dict):
+        if self.__db is None:
+            raise Exception("Database not initialized. Please provide a database name.")
+        try:
+            self.__db.create_collection(coll_name, validator={"$jsonSchema": schema})
+            self.collection = coll_name
+        except Exception as e:
+            raise Exception("Unable to create collection due to the following error: ", e)
+        
+        
     def list_databases(self):
         try:
             return self.__client.list_database_names()

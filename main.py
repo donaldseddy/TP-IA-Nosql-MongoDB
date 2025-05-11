@@ -1,6 +1,6 @@
-from MongoManager import MongoManager
-from config.db_config import DB_NAME, MONGO_URI
+
 from services.exercice1 import *
+from services.exercice2 import *
 
 def main():
 
@@ -13,6 +13,11 @@ def main():
     #_____________________________________________
 
     # exercice 2
+    #create_book_collection()
+    # add_book()
+    #____________________________________________
+    
+    # exercice 3
 
 if __name__ == "__main__":
     main()
