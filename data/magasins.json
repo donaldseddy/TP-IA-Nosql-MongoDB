@@ -1,0 +1,89 @@
+{
+    "name": "Google store",
+    "rate": 95,
+    "votes": 10,
+    "category": "electronic",
+    "createdAt": "2023-01-01",
+    "updatedAt": "2023-03-15",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            50.123,
+            10.456
+        ]
+    }
+}
+{
+    "name": "Zara",
+    "rate": 30,
+    "votes": 142,
+    "category": "clothes",
+    "createdAt": "2022-12-15",
+    "updatedAt": "2023-03-20",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            40.789,
+            20.123
+        ]
+    }
+}
+{
+    "name": "Deubié",
+    "rate": 82,
+    "votes": 2,
+    "category": "furniture",
+    "createdAt": "2023-02-10",
+    "updatedAt": "2023-04-12",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            30.456,
+            5.789
+        ]
+    }
+}
+{
+    "name": "Intersport",
+    "rate": 64,
+    "votes": 256,
+    "category": "sports",
+    "createdAt": "2023-05-15",
+    "updatedAt": "2023-05-17",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            40.456,
+            8.789
+        ]
+    }
+}
+{
+    "name": "Apicop",
+    "rate": 91,
+    "votes": 21,
+    "createdAt": "2022-02-10",
+    "updatedAt": "2023-02-01",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            35.456,
+            12.789
+        ]
+    }
+}
+{
+    "name": "Indoor security by google inc",
+    "rate": 79,
+    "votes": 85,
+    "category": "electronic",
+    "createdAt": "2022-01-10",
+    "updatedAt": "2023-04-01",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            35.456,
+            12.789
+        ]
+    }
+}

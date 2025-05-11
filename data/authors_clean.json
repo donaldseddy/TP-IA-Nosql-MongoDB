@@ -1,0 +1,52 @@
+[
+    {
+        "nom": "Victor Hugo",
+        "pays": "France",
+        "naissance": "26 f\u00e9vrier 1802"
+    },
+    {
+        "nom": "Antoine de Saint-Exup\u00e9ry",
+        "pays": "France",
+        "naissance": "29 juin 1900"
+    },
+    {
+        "nom": "J.K. Rowling",
+        "pays": "Royaume-Uni",
+        "naissance": "31 juillet 1965"
+    },
+    {
+        "nom": "George Orwell",
+        "pays": "Royaume-Uni",
+        "naissance": "25 juin 1903"
+    },
+    {
+        "nom": "J.R.R. Tolkien",
+        "pays": "Royaume-Uni",
+        "naissance": "3 janvier 1892"
+    },
+    {
+        "nom": "Fiodor Dosto\u00efevski",
+        "pays": "Russie",
+        "naissance": "11 novembre 1821"
+    },
+    {
+        "nom": "Jane Austen",
+        "pays": "Royaume-Uni",
+        "naissance": "16 d\u00e9cembre 1775"
+    },
+    {
+        "nom": "Alexandre Dumas",
+        "pays": "France",
+        "naissance": "24 juillet 1802"
+    },
+    {
+        "nom": "L\u00e9on Tolsto\u00ef",
+        "pays": "Russie",
+        "naissance": "9 septembre 1828"
+    },
+    {
+        "nom": "Charles Baudelaire",
+        "pays": "France",
+        "naissance": "9 avril 1821"
+    }
+]
