@@ -121,6 +121,13 @@ class MongoManager:
         except Exception as e:
             raise Exception("Unable to read the documents due to the following error:", e)
         
+    def read_sorted_documents(self, query: dict, sort_by: str, order: int):
+        try:
+            documents = self.collection.find(query).sort(sort_by, order)
+            return list(documents)
+        except Exception as e:
+            raise Exception("Unable to read the sorted documents due to the following error:", e)
+        
 
     def delete_one_document(self, query: dict):
         try:
