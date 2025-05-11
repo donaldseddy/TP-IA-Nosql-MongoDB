@@ -1,6 +1,7 @@
 
 from services.exercice1 import *
 from services.exercice2 import *
+from services.exercice3 import *
 
 def main():
 
@@ -14,10 +15,15 @@ def main():
 
     # exercice 2
     #create_book_collection()
-    # add_book()
+    #add_book()
     #____________________________________________
     
     # exercice 3
+    manage_books()
+    #____________________________________________
+
+    # exercice 4
+    
 
 if __name__ == "__main__":
     main()
