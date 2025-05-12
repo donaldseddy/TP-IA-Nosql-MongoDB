@@ -3,6 +3,7 @@ from services.exercice1 import *
 from services.exercice2 import *
 from services.exercice3 import *
 from services.exercice4 import *
+from services.exercice5 import *
 
 def main():
 
@@ -35,6 +36,14 @@ def main():
     #____________________________________________
 
     # exercice 5
+    #creation_collection_magasins()
+    #ranging_magasins()
+    #magasin_note_beetwen_50_80()
+    #magasins_2023()
+    #magasins_note_sup_75()
+    #magasins_sans_categorie()
+    magasins_votes_50_note_sup_60()
+
 
 if __name__ == "__main__":
     main()
