@@ -21,9 +21,9 @@ def creation_bd_initial():
         game_data.append(doc)  
 
     if isinstance(game_data, list):
-        data.collection.insert_many(game_data)
+        data.create_one_document(game_data)
     else:
-        data.collection.insert_one(game_data)
+        data.create_many_documents(game_data)
 
     print("Documents inserted successfully.")
 

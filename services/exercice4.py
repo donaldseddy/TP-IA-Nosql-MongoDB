@@ -25,9 +25,9 @@ def creation_collection_city():
         city_data.append(doc)  
 
     if isinstance(city_data, list):
-        data.collection.insert_many(city_data)
+        data.create_one_document(city_data)
     else:
-        data.collection.insert_one(city_data)
+        data.create_many_documents(city_data)
 
     print("Documents inserted successfully.")
 

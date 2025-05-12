@@ -159,3 +159,4 @@ class MongoManager:
             }
         except Exception as e:
             raise Exception("Unable to delete the documents due to the following error:", e)
+        
