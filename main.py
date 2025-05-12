@@ -2,6 +2,7 @@
 from services.exercice1 import *
 from services.exercice2 import *
 from services.exercice3 import *
+from services.exercice4 import *
 
 def main():
 
@@ -19,11 +20,21 @@ def main():
     #____________________________________________
     
     # exercice 3
-    manage_books()
+    #manage_books()
     #____________________________________________
 
     # exercice 4
-    
+    #creation_collection_city()
+    #update_city_name()
+    #update_city_coordinates()
+    #update_city_population()
+    #update_city_resquest_tag()
+    #update_city_resquest_delete_tag()
+    #update_city_resquest_delete_fist_thing_tag()
+    #update_city_resquest_delete_all_tag()
+    #____________________________________________
+
+    # exercice 5
 
 if __name__ == "__main__":
     main()
