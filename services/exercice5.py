@@ -24,9 +24,9 @@ def creation_collection_magasins():
         magasins_data.append(doc)  
 
     if isinstance(magasins_data, list):
-        data.create_one_document(magasins_data)
+        data.create_many_documents(magasins_data) 
     else:
-        data.create_many_documents(magasins_data)
+        data.create_one_document(magasins_data)
 
     print("Documents inserted successfully.")
 

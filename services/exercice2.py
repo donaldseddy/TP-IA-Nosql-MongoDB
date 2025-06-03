@@ -46,3 +46,25 @@ def add_book():
             print(f"Livre inséré : {book['title']}")
         except Exception as e:
             print(f"Erreur pour '{book['title']}' : {e}")
+
+    book_data = []
+
+    # Créer une BD Exercice avec une collection console_games
+    data = MongoManager(MONGO_URI, DB_NAME, "livres")
+    
+    with open("data//books.json", encoding="utf-8") as f:
+        documents = json.load(f)
+
+    for doc in documents:
+        if "_id" in doc:
+            if isinstance(doc["_id"], dict) and "$oid" in doc["_id"]:
+                doc["_id"] = ObjectId(doc["_id"]["$oid"])
+            elif not isinstance(doc["_id"], ObjectId):
+                del doc["_id"]
+        book_data.append(doc)  
+
+    if isinstance(book_data, list):
+        data.create_many_documents(book_data)
+    else:
+       data.create_one_document(book_data)
+    print("Documents inserted successfully.")
