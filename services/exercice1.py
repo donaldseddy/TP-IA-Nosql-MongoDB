@@ -21,10 +21,9 @@ def creation_bd_initial():
         game_data.append(doc)  
 
     if isinstance(game_data, list):
-        data.create_one_document(game_data)
-    else:
         data.create_many_documents(game_data)
-
+    else:
+       data.create_one_document(game_data)
     print("Documents inserted successfully.")
 
 def afffichage_jeux_3ds():

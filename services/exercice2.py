@@ -8,14 +8,21 @@ import json
 
 def create_book_collection():
     
-        mongo_manager = MongoManager(DB_NAME, MONGO_URI)
+        mongo_manager = MongoManager(MONGO_URI,DB_NAME)
         # Define the schema for the book collection
         book_schema = {
-            "title": {"type": "string", "unique": True},
-            "author": {"type": "string", "required": True},
-            "year": {"type": "int", "min": 1900},
-            "genre": {"type": "string", "optional": True}
+            "bsonType": "object",
+            "required": ["titre", "auteur", "annee", "categorie", "prix"],
+            "properties": {
+                "titre": {"bsonType": "string"},
+                "auteur": {"bsonType": "string"},
+                "annee": {"bsonType": "int", "minimum": 1000, "maximum": 2100},
+                "categorie": {"bsonType": "string"},
+                "prix": {"bsonType": "double", "minimum": 0}
+            }
         }
+
+
 
         # Create the collection with the defined schema
         mongo_manager.create_collection("livres", book_schema)
@@ -31,7 +38,7 @@ def add_book():
         {"title": "Harry Potter à l'école des sorciers", "author": "Copycat", "year": 2012, "genre": "Fantasy"}
     ]
 
-    mongo_manager = MongoManager(DB_NAME, MONGO_URI, "livres")
+    mongo_manager = MongoManager(MONGO_URI, DB_NAME, "livres")
 
     for book in books:
         try:

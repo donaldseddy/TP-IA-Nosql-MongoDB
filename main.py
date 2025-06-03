@@ -25,10 +25,10 @@ def main():
     #____________________________________________
 
     # exercice 4
-    #creation_collection_city()
-    #update_city_name()
-    #update_city_coordinates()
-    #update_city_population()
+    creation_collection_city()
+    update_city_name()
+    update_city_coordinates()
+    update_city_population()
     #update_city_resquest_tag()
     #update_city_resquest_delete_tag()
     #update_city_resquest_delete_fist_thing_tag()
@@ -42,7 +42,7 @@ def main():
     #magasins_2023()
     #magasins_note_sup_75()
     #magasins_sans_categorie()
-    magasins_votes_50_note_sup_60()
+    #magasins_votes_50_note_sup_60()
 
 
 if __name__ == "__main__":

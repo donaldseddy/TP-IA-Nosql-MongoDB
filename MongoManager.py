@@ -55,7 +55,7 @@ class MongoManager:
             self.collection = coll_name
         except Exception as e:
             raise Exception("Unable to create collection due to the following error: ", e)
-        
+
         
     def list_databases(self):
         try:
