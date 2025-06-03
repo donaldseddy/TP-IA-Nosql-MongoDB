@@ -6,36 +6,33 @@ import json
 import os
 from dotenv import load_dotenv
 from bson import ObjectId
+from MongoManager import MongoManager
+from config.db_config import DB_NAME, MONGO_URI
 
-# Charger les variables d'environnement
-load_dotenv()
 
-# Configuration de la connexion MongoDB
-client = MongoClient(os.getenv('MONGODB_URI', 'mongodb://localhost:27017/'))
-db = client[os.getenv('MONGODB_DB', 'tp')]
-collection = db[os.getenv('MONGODB_COLLECTION', 'magasins')]
+mongoManager = MongoManager(MONGO_URI, DB_NAME)
 
 def index(request):
     """Vue pour afficher la page d'accueil"""
     return render(request, 'index.html')
 
-def get_all_documents(request):
-    """Récupère tous les documents de la collection"""
+def get_documents_by_collection(request, collection_name):
+    """
+    Vue Django : récupère tous les documents de la collection spécifiée dans l'URL
+    """
     try:
-        documents = list(collection.find({}))
-        # Convertir l'ObjectId en string pour la sérialisation JSON
-        for doc in documents:
-            doc['_id'] = str(doc['_id'])
+        documents = mongoManager.get_documents_from_collection(collection_name)
         return JsonResponse({'status': 'success', 'data': documents})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
 
 def create_document(request):
     """Crée un nouveau document dans la collection"""
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            result = collection.insert_one(data)
+            document = json.loads(request.body)
+            result = mongoManager.create_one_document(document)
             return JsonResponse({'status': 'success', 'id': str(result.inserted_id)})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -46,7 +43,7 @@ def update_document(request, document_id):
     if request.method == 'PUT':
         try:
             data = json.loads(request.body)
-            result = collection.update_one(
+            result = mongoManager.update_one_document(
                 {'_id': document_id},
                 {'$set': data}
             )
@@ -55,13 +52,15 @@ def update_document(request, document_id):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée'}, status=405)
 
-def delete_document(request, document_id):
+def delete_document(request, document_Id):
     """Supprime un document"""
     if request.method == 'DELETE':
         try:
-            print("document_id", document_id)
-            result = collection.delete_one({'_id': ObjectId(document_id)})
-            return JsonResponse({'status': 'success', 'deleted_count': result.deleted_count})
+            result = mongoManager.delete_one_document(document_Id)
+            if result['deletedCount'] > 0:
+                return JsonResponse({'status': 'success', 'message': 'Document supprimé'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Document non trouvé'}, status=404)
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée'}, status=405) 

@@ -2,6 +2,7 @@ from pymongo.collection import Collection
 from pymongo.database import Database
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from bson import ObjectId
 
 class MongoManager:
     def __init__(self, uri: str, db_name: str=None, coll_name: str=None):
@@ -139,15 +140,24 @@ class MongoManager:
             raise Exception("Unable to read the sorted documents due to the following error:", e)
         
 
-    def delete_one_document(self, query: dict):
+    from bson import ObjectId
+
+    def delete_one_document(self, id):
+        """
+        Supprime un document via son identifiant (_id).
+        :param id: str ou ObjectId – l'identifiant MongoDB du document à supprimer
+        :return: dict – résultat de l'opération
+        """
         try:
-            delete_result = self.collection.delete_one(query)
+            object_id = ObjectId(id) if not isinstance(id, ObjectId) else id
+            delete_result = self.__collection.delete_one({"_id": object_id})
             return {
-            "acknowledged": delete_result.acknowledged,
-            "deletedCount": delete_result.deleted_count,
+                "acknowledged": delete_result.acknowledged,
+                "deletedCount": delete_result.deleted_count,
             }
         except Exception as e:
-            raise Exception("Unable to delete the document due to the following error:", e)
+            raise RuntimeError(f"Unable to delete the document: {e}")
+
         
     
     def delete_many_documents(self, query: dict):
@@ -160,3 +170,26 @@ class MongoManager:
         except Exception as e:
             raise Exception("Unable to delete the documents due to the following error:", e)
         
+   
+    def get_documents_from_collection(self, collection_name):
+        """
+        Récupère tous les documents d'une collection spécifiée dynamiquement.
+        :param collection_name: str - le nom de la collection MongoDB
+        :return: list de documents
+        """
+        if not collection_name:
+            raise ValueError("Collection name must be provided.")
+        
+        try:
+            collection = self.__db[collection_name]
+            documents = list(collection.find())
+
+            # Convertir les ObjectId en chaînes pour JSON
+            for doc in documents:
+                if '_id' in doc:
+                    doc['_id'] = str(doc['_id'])
+
+            return documents
+
+        except Exception as e:
+            raise RuntimeError(f"Unable to retrieve documents from collection '{collection_name}': {e}")
