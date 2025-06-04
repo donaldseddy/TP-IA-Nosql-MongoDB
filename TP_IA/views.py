@@ -16,15 +16,18 @@ def index(request):
     """Vue pour afficher la page d'accueil"""
     return render(request, 'index.html')
 
-def get_documents_by_collection(request, collection_name):
-    """
-    Vue Django : récupère tous les documents de la collection spécifiée dans l'URL
-    """
+
+def get_documents_by_collection(request):
+    collection_name = request.GET.get('collection_name')
+    if not collection_name:
+        return JsonResponse({'status': 'error', 'message': 'Missing collection_name parameter'}, status=400)
+
     try:
         documents = mongoManager.get_documents_from_collection(collection_name)
         return JsonResponse({'status': 'success', 'data': documents})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
 
 
 def create_document(request):

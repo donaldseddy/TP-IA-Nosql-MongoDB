@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from TP_IA import views
 
 urlpatterns = [
+    path('', views.index, name='index'),
     path('admin/', admin.site.urls),
+    path('api/documents/', views.get_documents_by_collection, name='get_all_documents'),
+    path('api/documents/create/', views.create_document, name='create_document'),
+    path('api/documents/<str:document_id>/update/', views.update_document, name='update_document'),
+    path('api/documents/<str:document_id>/delete/', views.delete_document, name='delete_document'),
 ]

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionnaire MongoDB</title>
+    <title>Gestionnaire de Magasins</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container { margin-top: 2rem; }
@@ -12,30 +12,46 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">Gestionnaire MongoDB</h1>
-        
-        <!-- Formulaire de création -->
+        <h1 class="mb-4">Gestion des Magasins</h1>
+
+        <!-- Formulaire de création de magasin -->
         <div class="card">
             <div class="card-header">
-                <h5>Créer un nouveau document</h5>
+                <h5>Créer un nouveau magasin</h5>
             </div>
             <div class="card-body">
-                <form id="createForm">
+                <form id="magasinForm">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="documentData" class="form-label">Données JSON</label>
-                        <textarea class="form-control" id="documentData" rows="4" placeholder='{"nom": "exemple", "valeur": 123}'></textarea>
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="nom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ville" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="ville" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="code_postal" class="form-label">Code Postal</label>
+                        <input type="text" class="form-control" id="code_postal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label">Téléphone</label>
+                        <input type="text" class="form-control" id="telephone">
                     </div>
                     <button type="submit" class="btn btn-primary">Créer</button>
                 </form>
             </div>
         </div>
 
-        <!-- Liste des documents -->
+        <!-- Liste des magasins -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>Documents</h5>
-                <button class="btn btn-secondary" onclick="loadDocuments()">Rafraîchir</button>
+                <h5>Magasins enregistrés</h5>
+                <button class="btn btn-secondary" onclick="loadMagasins()">Rafraîchir</button>
             </div>
             <div class="card-body">
                 <div id="documentsList"></div>
@@ -44,7 +60,7 @@
     </div>
 
     <script>
-        // Fonction pour obtenir le token CSRF
+        // CSRF
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -59,17 +75,19 @@
             }
             return cookieValue;
         }
-
-        // Obtenir le token CSRF
         const csrftoken = getCookie('csrftoken');
 
-        // Charger les documents au chargement de la page
-        document.addEventListener('DOMContentLoaded', loadDocuments);
-
-        // Gérer la soumission du formulaire
-        document.getElementById('createForm').addEventListener('submit', async (e) => {
+        // Créer un magasin
+        document.getElementById('magasinForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const data = document.getElementById('documentData').value;
+            const data = {
+                nom: document.getElementById('nom').value,
+                adresse: document.getElementById('adresse').value,
+                ville: document.getElementById('ville').value,
+                code_postal: document.getElementById('code_postal').value,
+                telephone: document.getElementById('telephone').value
+            };
+
             try {
                 const response = await fetch('/api/documents/create/', {
                     method: 'POST',
@@ -77,30 +95,31 @@
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken
                     },
-                    body: data
+                    body: JSON.stringify(data)
                 });
+
                 const result = await response.json();
                 if (result.status === 'success') {
-                    alert('Document créé avec succès!');
-                    loadDocuments();
-                    document.getElementById('documentData').value = '';
+                    alert('Magasin créé avec succès !');
+                    loadMagasins();
+                    document.getElementById('magasinForm').reset();
                 } else {
                     alert('Erreur: ' + result.message);
                 }
             } catch (error) {
-                alert('Erreur: ' + error.message);
+                alert('Erreur : ' + error.message);
             }
         });
 
-        // Charger tous les documents
-        async function loadDocuments() {
+        // Charger les magasins
+        async function loadMagasins() {
             try {
-                const response = await fetch('/api/documents/');
+                const response = await fetch('/api/documents/?collection_name=magasins');
                 const result = await response.json();
-                const documentsList = document.getElementById('get_all_documents');
-                
+                const list = document.getElementById('documentsList');
+
                 if (result.status === 'success') {
-                    documentsList.innerHTML = result.data.map(doc => `
+                    list.innerHTML = result.data.map(doc => `
                         <div class="card mb-2">
                             <div class="card-body">
                                 <pre class="mb-0">${JSON.stringify(doc, null, 2)}</pre>
@@ -111,17 +130,17 @@
                         </div>
                     `).join('');
                 } else {
-                    documentsList.innerHTML = '<div class="alert alert-danger">Erreur lors du chargement des documents</div>';
+                    list.innerHTML = '<div class="alert alert-danger">Erreur lors du chargement des magasins</div>';
                 }
             } catch (error) {
-                document.getElementById('documentsList').innerHTML = 
-                    '<div class="alert alert-danger">Erreur: ' + error.message + '</div>';
+                document.getElementById('documentsList').innerHTML =
+                    '<div class="alert alert-danger">Erreur : ' + error.message + '</div>';
             }
         }
 
-        // Supprimer un document
+        // Supprimer un magasin
         async function deleteDocument(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) {
+            if (confirm('Supprimer ce magasin ?')) {
                 try {
                     const response = await fetch(`/api/documents/${id}/delete/`, {
                         method: 'DELETE',
@@ -131,16 +150,20 @@
                     });
                     const result = await response.json();
                     if (result.status === 'success') {
-                        alert('Document supprimé avec succès!');
-                        loadDocuments();
+                        alert('Magasin supprimé avec succès !');
+                        loadMagasins();
                     } else {
                         alert('Erreur: ' + result.message);
                     }
                 } catch (error) {
-                    alert('Erreur: ' + error.message);
+                    alert('Erreur : ' + error.message);
                 }
             }
         }
+
+        // Charger à l'ouverture
+        document.addEventListener('DOMContentLoaded', loadMagasins);
     </script>
 </body>
-</html> 
+</html>
+<!-- End of templates/index.html -->
