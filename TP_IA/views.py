@@ -16,6 +16,9 @@ def index(request):
     """Vue pour afficher la page d'accueil"""
     return render(request, 'index.html')
 
+def form_magasin(request):
+    """Vue pour afficher le formulaire de création de magasin"""
+    return render(request, 'form_magasin.html')
 
 def get_documents_by_collection(request):
     collection_name = request.GET.get('collection_name')

@@ -20,6 +20,7 @@ from TP_IA import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('formmagasin/', views.form_magasin, name='form_magasin'),
     path('admin/', admin.site.urls),
     path('api/documents/', views.get_documents_by_collection, name='get_all_documents'),
     path('api/documents/create/', views.create_document, name='create_document'),
